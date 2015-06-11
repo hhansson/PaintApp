@@ -51,7 +51,7 @@ public class PaintingView extends View {
 
         canvasPaint = new Paint(Paint.DITHER_FLAG);
     }
-    
+
 
     public boolean onTouchEvent(MotionEvent event) {
         float touchX = event.getX();
@@ -86,6 +86,11 @@ public class PaintingView extends View {
     protected void onDraw(Canvas canvas){
         canvas.drawBitmap(bitmap, 0, 0, paint);
         canvas.drawPath(path, paint);
+    }
+
+    public void changePaintColor (int color){
+        paintColor = color;
+        paint.setColor(paintColor);
     }
 
 }
