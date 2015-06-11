@@ -10,4 +10,7 @@
     <string name="red_button">R</string>
     <string name="yellow_button">Y</string>
     <string name="blue_button">B</string>
+    <string name="small_brush">SM</string>
+    <string name="medium_brush">MD</string>
+    <string name="large_brush">LG</string>
 </resources>

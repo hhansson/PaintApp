@@ -93,4 +93,8 @@ public class PaintingView extends View {
         paint.setColor(paintColor);
     }
 
+    public void changeBrushSize (int size){
+        paint.setStrokeWidth(size);
+    }
+
 }

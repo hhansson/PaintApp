@@ -22,6 +22,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private Button redButton;
     private Button yellowButton;
     private Button blueButton;
+    private Button smallBrushButton;
+    private Button mediumBrushButton;
+    private Button largeBrushButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
         redButton = (Button) findViewById(R.id.red_button);
         yellowButton = (Button) findViewById(R.id.yellow_button);
         blueButton = (Button) findViewById(R.id.blue_button);
+        smallBrushButton = (Button) findViewById(R.id.small_brush_button);
+        mediumBrushButton = (Button) findViewById(R.id.medium_brush_button);
+        largeBrushButton = (Button) findViewById(R.id.large_brush_button);
         //Set onClick for all buttons
         undoButton.setOnClickListener(this);
         colorButton.setOnClickListener(this);
@@ -43,7 +49,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
         redButton.setOnClickListener(this);
         yellowButton.setOnClickListener(this);
         blueButton.setOnClickListener(this);
-
+        smallBrushButton.setOnClickListener(this);
+        mediumBrushButton.setOnClickListener(this);
+        largeBrushButton.setOnClickListener(this);
     }
 
     @Override
@@ -74,11 +82,26 @@ public class MainActivity extends Activity implements View.OnClickListener{
             case (R.id.undo_button):
                 break;
             case (R.id.color_selection_button):
-                redButton.setVisibility(View.VISIBLE);
-                yellowButton.setVisibility(View.VISIBLE);
-                blueButton.setVisibility(View.VISIBLE);
+                if (redButton.getVisibility() == View.VISIBLE){
+                    redButton.setVisibility(View.GONE);
+                    yellowButton.setVisibility(View.GONE);
+                    blueButton.setVisibility(View.GONE);
+                } else {
+                    redButton.setVisibility(View.VISIBLE);
+                    yellowButton.setVisibility(View.VISIBLE);
+                    blueButton.setVisibility(View.VISIBLE);
+                }
                 break;
             case (R.id.size_selection_button):
+                if (smallBrushButton.getVisibility() == View.VISIBLE){
+                    smallBrushButton.setVisibility(View.GONE);
+                    mediumBrushButton.setVisibility(View.GONE);
+                    largeBrushButton.setVisibility(View.GONE);
+                } else {
+                    smallBrushButton.setVisibility(View.VISIBLE);
+                    mediumBrushButton.setVisibility(View.VISIBLE);
+                    largeBrushButton.setVisibility(View.VISIBLE);
+                }
                 break;
             case (R.id.red_button):
                 redButton.setVisibility(View.GONE);
@@ -99,6 +122,24 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 yellowButton.setVisibility(View.GONE);
                 blueButton.setVisibility(View.GONE);
                 paintingView.changePaintColor(0xff0000ff);
+                break;
+            case (R.id.small_brush_button):
+                smallBrushButton.setVisibility(View.GONE);
+                mediumBrushButton.setVisibility(View.GONE);
+                largeBrushButton.setVisibility(View.GONE);
+                paintingView.changeBrushSize(10);
+                break;
+            case (R.id.medium_brush_button):
+                smallBrushButton.setVisibility(View.GONE);
+                mediumBrushButton.setVisibility(View.GONE);
+                largeBrushButton.setVisibility(View.GONE);
+                paintingView.changeBrushSize(20);
+                break;
+            case (R.id.large_brush_button):
+                smallBrushButton.setVisibility(View.GONE);
+                mediumBrushButton.setVisibility(View.GONE);
+                largeBrushButton.setVisibility(View.GONE);
+                paintingView.changeBrushSize(40);
                 break;
         }
     }
