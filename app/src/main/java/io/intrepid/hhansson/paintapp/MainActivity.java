@@ -79,8 +79,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case (R.id.undo_button):
-                break;
             case (R.id.color_selection_button):
                 if (redButton.getVisibility() == View.VISIBLE){
                     redButton.setVisibility(View.GONE);
@@ -123,6 +121,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 blueButton.setVisibility(View.GONE);
                 paintingView.changePaintColor(0xff0000ff);
                 break;
+            case (R.id.undo_button):
+                paintingView.erasePaint();
             case (R.id.small_brush_button):
                 smallBrushButton.setVisibility(View.GONE);
                 mediumBrushButton.setVisibility(View.GONE);

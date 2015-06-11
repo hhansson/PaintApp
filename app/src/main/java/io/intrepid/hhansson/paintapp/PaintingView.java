@@ -28,7 +28,7 @@ public class PaintingView extends View {
     private Paint paint;
     private Path path;
     private int paintColor;
-    private Paint canvasPaint;
+    private int canvasPaint;
     private DisplayMetrics display = new DisplayMetrics();
     private Bitmap bitmap = null;
     private Canvas canvas;
@@ -41,6 +41,8 @@ public class PaintingView extends View {
     public void setupDrawing () {
         path = new Path();
         paint = new Paint();
+        canvasPaint = 0xffffffff;
+        //canvas.drawColor(canvasPaint);
         paintColor = 0xff000000;
         paint.setColor(paintColor);
         paint.setAntiAlias(true);
@@ -49,7 +51,7 @@ public class PaintingView extends View {
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
 
-        canvasPaint = new Paint(Paint.DITHER_FLAG);
+        //canvasPaint = new Paint(Paint.DITHER_FLAG);
     }
 
 
@@ -80,6 +82,7 @@ public class PaintingView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
+        canvas.drawColor(canvasPaint);
     }
 
     @Override
@@ -97,4 +100,8 @@ public class PaintingView extends View {
         paint.setStrokeWidth(size);
     }
 
+    public void erasePaint () {
+        paintColor = canvasPaint;
+        paint.setColor(paintColor);
+    }
 }
