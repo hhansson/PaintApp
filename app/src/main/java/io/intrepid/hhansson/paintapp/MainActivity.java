@@ -1,17 +1,24 @@
 package io.intrepid.hhansson.paintapp;
 
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends Activity {
+    private PaintingView paintingView;
+    private ButtonActivity buttonActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_main);
+        setContentView(R.layout.painting_view);
+        paintingView = (PaintingView) findViewById(R.id.painting);
+        paintingView.setupDrawing();
     }
 
     @Override
