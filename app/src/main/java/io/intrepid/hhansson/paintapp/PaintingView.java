@@ -11,7 +11,9 @@ import android.graphics.Path;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,19 +21,19 @@ import android.widget.Button;
 /**
  * Created by hayleyhansson on 6/9/15.
  */
-public class MainActivityFragment extends Fragment implements View.OnClickListener {
+public class PaintingView extends Fragment {
 
-    private Paint paint = new Paint();
-    private Path path = new Path();
-    private Color color = new Color();
+    private Paint paint;
+    private Path path;
+    private int paintColor = 0xFF660000;
+    private Paint canvasPaint;
     private DisplayMetrics display = new DisplayMetrics();
-    private Bitmap bitmap = Bitmap.createBitmap(display, R.dimen.activity_horizontal_margin, R.dimen.activity_vertical_margin, Bitmap.Config.ARGB_8888);
-    private Button undoButton, colorButton, sizeButton;
-    private Button redButton, yellowButton, blueButton;
+    private Bitmap bitmap = null;
+    //private Button undoButton, colorButton, sizeButton;
+    //private Button redButton, yellowButton, blueButton;
     private Canvas canvas;
 
-
-    @Override
+   /* @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         undoButton = (Button) getView().findViewById(R.id.undo_button);
         colorButton = (Button) getView().findViewById(R.id.color_selection_button);
@@ -39,11 +41,32 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
         redButton = (Button) getView().findViewById(R.id.red_button);
         yellowButton = (Button) getView().findViewById(R.id.yellow_button);
         blueButton = (Button) getView().findViewById(R.id.blue_button);
+        //Set onClick for all buttons
         undoButton.setOnClickListener(this);
+        colorButton.setOnClickListener(this);
+        sizeButton.setOnClickListener(this);
+        redButton.setOnClickListener(this);
+        yellowButton.setOnClickListener(this);
+        blueButton.setOnClickListener(this);
+
+        Log.v ("Custom Log: ", "onCreateView in Fragment accessed");
         return inflater.inflate(R.layout.fragment_main, container, false);
+    }*/
+
+    public void setupDrawing () {
+        path = new Path();
+        paint = new Paint();
+        paint.setColor(paintColor);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(20);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+
+        canvasPaint = new Paint(Paint.DITHER_FLAG);
     }
 
-    public void onClick(View view){
+    /*public void onClick(View view){
         switch (view.getId()){
             case (R.id.undo_button):
                 break;
@@ -51,9 +74,10 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
                 yellowButton.setVisibility(View.VISIBLE);
                 blueButton.setVisibility(View.VISIBLE);
                 break;
-            case (R.id.size_selection_button): sizeSelector();
+            case (R.id.size_selection_button):
                 break;
             case (R.id.red_button):
+                Log.w("Log: ", "Red button click");
                 //Disappear color choices
                 redButton.setVisibility(View.GONE);
                 yellowButton.setVisibility(View.GONE);
@@ -75,10 +99,41 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
                 //CHANGE COLOR TO BLUE
                 break;
         }
+    }*/
+
+    public boolean onTouchEvent(MotionEvent event) {
+        float touchX = event.getX();
+        float touchY = event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                path.moveTo(touchX, touchY);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                path.lineTo(touchX, touchY);
+                break;
+            case MotionEvent.ACTION_UP:
+                canvas.drawPath(path, paint);
+                path.reset();
+                break;
+            default:
+                return false;
+        }
+        invalidate();
+        return true;
     }
 
-    private void sizeSelector() {
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        canvas = new Canvas(bitmap);
+    }
 
+    @Override
+    protected void onDraw(Canvas canvas){
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        canvas.drawPath(path, paint);
     }
 
 }
