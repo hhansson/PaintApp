@@ -1,15 +1,23 @@
 package io.intrepid.hhansson.paintapp;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.zip.Inflater;
 
@@ -29,10 +37,39 @@ public class MainActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.painting_view);
-        paintingView = (PaintingView) findViewById(R.id.painting);
-        paintingView.setupDrawing();
+        setContentView(R.layout.activity_main);
+        ListView listView = (ListView) findViewById(R.id.background_color_options_list);
 
+
+        final ArrayAdapter<String> colorOptions = new ArrayAdapter<String>(this, android.R.layout.select_dialog_singlechoice);
+        colorOptions.add("RED");
+        colorOptions.add("YELLOW");
+        colorOptions.add("GREEN");
+        colorOptions.add("BLUE");
+        colorOptions.add("BLACK");
+        colorOptions.add("WHITE");
+        listView.setAdapter(colorOptions);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String color = (String) parent.getItemAtPosition(position);
+                int code = Color.parseColor(color);
+                Log.d("!!!!!!!!!!!!!!", (Integer.toString(code)));
+                setContentView(R.layout.painting_view);
+                paintingView = (PaintingView) findViewById(R.id.painting);
+                paintingView.makeBackgroundColor(code);
+                paintingView.setupDrawing();
+                paintingView.setVisibility(View.VISIBLE);
+                RelativeLayout layout = (RelativeLayout) findViewById(R.id.background_dialog);
+                makeButtons();
+            }
+        });
+
+
+    }
+
+    private void makeButtons() {
         undoButton = (Button) findViewById(R.id.undo_button);
         colorButton = (Button) findViewById(R.id.color_selection_button);
         sizeButton = (Button) findViewById(R.id.size_selection_button);

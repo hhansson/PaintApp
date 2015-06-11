@@ -41,7 +41,7 @@ public class PaintingView extends View {
     public void setupDrawing () {
         path = new Path();
         paint = new Paint();
-        canvasPaint = 0xffffffff;
+        //canvasPaint = 0xffffffff;
         //canvas.drawColor(canvasPaint);
         paintColor = 0xff000000;
         paint.setColor(paintColor);
@@ -103,5 +103,9 @@ public class PaintingView extends View {
     public void erasePaint () {
         paintColor = canvasPaint;
         paint.setColor(paintColor);
+    }
+
+    public void makeBackgroundColor (int color) {
+        canvasPaint = color;
     }
 }
